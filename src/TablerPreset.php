@@ -1,6 +1,6 @@
 <?php
 
-namespace LaravelFrontendPresets\TablerPreset;
+namespace TheLakoli\TablerPreset;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;

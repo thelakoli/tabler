@@ -1,5 +1,5 @@
 <?php
-namespace LaravelFrontendPresets\TablerPreset;
+namespace TheLakoli\TablerPreset;
 
 use Illuminate\Support\ServiceProvider;
 use Laravel\Ui\UiCommand;
