@@ -1,4 +1,5 @@
 <?php
+
 namespace LaravelFrontendPresets\TablerPreset;
 
 use Illuminate\Support\Arr;
@@ -17,12 +18,13 @@ class TablerPreset extends Preset
      */
     public static function install()
     {
-       static::updatePackages();
-       static::updateStyles();
-       static::updateBootstrapping();
-       static::updateWelcomePage();
-       // static::updatePagination();
-       static::removeNodeModules();
+        static::updatePackages();
+        static::updateStyles();
+        static::updateBootstrapping();
+        // static::updateWelcomePage();
+        static::updateFrontendLayouts();
+        // static::updatePagination();
+        static::removeNodeModules();
     }
 
     /**
@@ -32,9 +34,9 @@ class TablerPreset extends Preset
      */
     public static function installAuth()
     {
-       static::scaffoldController();
-       static::scaffoldAuth();
-       static::updatePublicAssets();
+        static::scaffoldController();
+        static::scaffoldAuth();
+        static::updatePublicAssets();
     }
 
     /**
@@ -47,20 +49,23 @@ class TablerPreset extends Preset
     {
         // packages to add to the package.json
         $packagesToAdd = [
-          "axios" => "^0.19",
-          "bootstrap" => "^4.0.0",
-          "cross-env" => "^7.0",
-          "jquery" => "^3.2",
-          "laravel-mix" => "^5.0.1",
-          "lodash" => "^4.17.13",
-          "resolve-url-loader" => "^3.1.0",
-          "sass" => "^1.15.2",
-          "sass-loader" => "^8.0.0",
-          'tabler' => '^1.0.0-alpha.7',
+            "axios" => "^0.19",
+            "bootstrap" => "^4.0.0",
+            "cross-env" => "^7.0",
+            "jquery" => "^3.2",
+            "laravel-mix" => "^5.0.1",
+            "lodash" => "^4.17.13",
+            "resolve-url-loader" => "^3.1.0",
+            "sass" => "^1.15.2",
+            "sass-loader" => "^8.0.0",
+            'tabler' => '^1.0.0-alpha.7',
+            'sass-loader' => '^8.0.0',
+            'vue' => '^2.5.17',
+            'vue-template-compiler' => '^2.6.10',
         ];
-        
+
         // packages to remove from the package.json
-        $packagesToRemove = ['@babel/preset-react', 'react', 'react-dom', 'vue', 'vue-template-compiler'];
+        $packagesToRemove = ['@babel/preset-react', 'react', 'react-dom'];
         return $packagesToAdd + Arr::except($packages, $packagesToRemove);
     }
     /**
@@ -71,15 +76,15 @@ class TablerPreset extends Preset
     protected static function updateStyles()
     {
         tap(new Filesystem, function ($filesystem) {
-            $filesystem->deleteDirectory(resource_path('sass'));
-            $filesystem->delete(public_path('js/app.js'));
-            $filesystem->delete(public_path('css/app.css'));
+            $filesystem->deleteDirectory(resource_path('sass/frontend'));
+            $filesystem->delete(public_path('js/frontend.js'));
+            $filesystem->delete(public_path('css/frontend.css'));
 
-            if (! $filesystem->isDirectory($directory = resource_path('css'))) {
+            if (!$filesystem->isDirectory($directory = resource_path('css'))) {
                 $filesystem->makeDirectory($directory, 0755, true);
             }
 
-            $filesystem->copyDirectory(__DIR__.'/tabler-stubs/resources/sass', resource_path('sass'));
+            $filesystem->copyDirectory(__DIR__ . '/tabler-stubs/resources/sass', resource_path('sass/'));
         });
     }
     /**
@@ -89,10 +94,30 @@ class TablerPreset extends Preset
      */
     protected static function updateBootstrapping()
     {
-        copy(__DIR__.'/tabler-stubs/webpack.mix.js', base_path('webpack.mix.js'));
+        copy(__DIR__ . '/tabler-stubs/webpack.mix.js', base_path('webpack.mix.js'));
 
-        copy(__DIR__.'/tabler-stubs/resources/js/bootstrap.js', resource_path('js/bootstrap.js'));
+        copy(__DIR__ . '/tabler-stubs/resources/js/bootstrap.js', resource_path('js/bootstrap.js'));
     }
+
+
+    /**
+     * Update the default frontend layout page file.
+     *
+     * @return void
+     */
+    protected static function updateFrontendLayouts()
+    {
+        tap(new Filesystem, function ($filesystem) {
+        $filesystem->deleteDirectory(
+            resource_path('views/frontend')
+        );
+        $filesystem->copyDirectory(__DIR__ . '/tabler-stubs/resources/views/layouts/frontend', resource_path('views/layouts'));
+        $filesystem->copyDirectory(__DIR__ . '/tabler-stubs/resources/views/frontend', resource_path('views'));
+       
+    });
+}
+
+
     /**
      * Update the default welcome page file.
      *
@@ -104,7 +129,7 @@ class TablerPreset extends Preset
             resource_path('views/welcome.blade.php')
         );
 
-        copy(__DIR__.'/tabler-stubs/resources/views/welcome.blade.php', resource_path('views/welcome.blade.php'));
+        copy(__DIR__ . '/tabler-stubs/resources/views/welcome.blade.php', resource_path('views/welcome.blade.php'));
     }
     /**
      * Scaffold Auth controllers into project.
@@ -113,7 +138,7 @@ class TablerPreset extends Preset
      */
     protected static function scaffoldController()
     {
-        if (! is_dir($directory = app_path('Http/Controllers/Auth'))) {
+        if (!is_dir($directory = app_path('Http/Controllers/Auth'))) {
             mkdir($directory, 0755, true);
         }
 
@@ -123,7 +148,7 @@ class TablerPreset extends Preset
             ->each(function (SplFileInfo $file) use ($filesystem) {
                 $filesystem->copy(
                     $file->getPathname(),
-                    app_path('Http/Controllers/Auth/'.Str::replaceLast('.stub', '.php', $file->getFilename()))
+                    app_path('Http/Controllers/Auth/' . Str::replaceLast('.stub', '.php', $file->getFilename()))
                 );
             });
     }
@@ -143,13 +168,13 @@ class TablerPreset extends Preset
         );
 
         tap(new Filesystem, function ($filesystem) {
-            $filesystem->copyDirectory(__DIR__.'/tabler-stubs/resources/views', resource_path('views'));
+            $filesystem->copyDirectory(__DIR__ . '/tabler-stubs/resources/views', resource_path('views'));
 
             collect($filesystem->allFiles(base_path('vendor/laravel/ui/stubs/migrations')))
                 ->each(function (SplFileInfo $file) use ($filesystem) {
                     $filesystem->copy(
                         $file->getPathname(),
-                        database_path('migrations/'.$file->getFilename())
+                        database_path('migrations/' . $file->getFilename())
                     );
                 });
         });
@@ -161,7 +186,7 @@ class TablerPreset extends Preset
         return str_replace(
             '{{namespace}}',
             Container::getInstance()->getNamespace(),
-            file_get_contents(__DIR__.'/tabler-stubs/controllers/HomeController.stub')
+            file_get_contents(__DIR__ . '/tabler-stubs/controllers/HomeController.stub')
         );
     }
 
@@ -172,6 +197,6 @@ class TablerPreset extends Preset
      */
     protected static function updatePublicAssets()
     {
-        (new Filesystem)->copyDirectory(__DIR__.'/tabler-stubs/public', public_path('static/illustrations'));
+        (new Filesystem)->copyDirectory(__DIR__ . '/tabler-stubs/public', public_path('static/illustrations'));
     }
 }

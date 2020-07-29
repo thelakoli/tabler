@@ -7,10 +7,10 @@
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
-  <title>{{ config('app.name', 'Laravel') }}</title>
+  <title>{{ config('app.name', 'Lakoli') }}</title>
 
   <!-- Styles -->
-  <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+  <link href="{{ mix('css/frontend.css') }}" rel="stylesheet">
 </head>
 <body class="antialiased border-top-wide border-primary d-flex flex-column" style="display: block;">
   @yield('body')
@@ -18,7 +18,7 @@
   <!-- Scripts -->
   <script src="{{ mix('js/manifest.js') }}"></script>
   <script src="{{ mix('js/vendor.js') }}"></script>
-  <script src="{{ mix('js/app.js') }}"></script>
+  <script src="{{ mix('js/frontend.js') }}"></script>
   @stack('scripts')
   </script>
 </body>
