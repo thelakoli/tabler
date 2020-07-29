@@ -61,7 +61,7 @@ class TablerPreset extends Preset
             'tabler' => '^1.0.0-alpha.7',
             'sass-loader' => '^8.0.0',
             'vue' => '^2.5.17',
-            'vue-template-compiler' => '^2.6.10',
+            'vue-template-compiler' => '^2.6.11',
         ];
 
         // packages to remove from the package.json
