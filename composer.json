@@ -15,7 +15,7 @@
     "extra": {
       "laravel": {
         "providers": [
-          "Lakoli\\TablerPreset\\TablerPresetServiceProvider"
+          "\\Lakoli\\TablerPreset\\TablerPresetServiceProvider"
        ]
       }
     }
