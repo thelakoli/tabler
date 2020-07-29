@@ -111,8 +111,11 @@ class TablerPreset extends Preset
         $filesystem->deleteDirectory(
             resource_path('views/frontend')
         );
-        $filesystem->copyDirectory(__DIR__ . '/tabler-stubs/resources/views/layouts/frontend', resource_path('views/layouts'));
-        $filesystem->copyDirectory(__DIR__ . '/tabler-stubs/resources/views/frontend', resource_path('views'));
+        if (!$filesystem->isDirectory($directory = resource_path('frontend'))) {
+            $filesystem->makeDirectory($directory, 0755, true);
+        }
+        $filesystem->copyDirectory(__DIR__ . '/tabler-stubs/resources/views/layouts/', resource_path('views/layouts'));
+        $filesystem->copyDirectory(__DIR__ . '/tabler-stubs/resources/views/frontend', resource_path('views/frontend'));
        
     });
 }
