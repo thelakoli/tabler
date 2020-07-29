@@ -1,9 +1,9 @@
 <?php
-namespace TheLakoli\TablerPreset;
+namespace Lakoli\TablerPreset;
 
 use Illuminate\Support\ServiceProvider;
 use Laravel\Ui\UiCommand;
-use Laravel\Ui\AuthCommand;
+// use Laravel\Ui\AuthCommand;
 
 class TablerPresetServiceProvider extends ServiceProvider
 {

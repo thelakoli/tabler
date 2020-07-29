@@ -9,13 +9,13 @@
     },
     "autoload": {
         "psr-4": {
-            "TheLakoli\\TablerPreset\\": "src/"
+            "Lakoli\\TablerPreset\\": "src/"
         }
     },
     "extra": {
       "laravel": {
         "providers": [
-          "TheLakoli\\TablerPreset\\TablerPresetServiceProvider"
+          "Lakoli\\TablerPreset\\TablerPresetServiceProvider"
        ]
       }
     }

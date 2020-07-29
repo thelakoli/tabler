@@ -1,6 +1,6 @@
 <?php
 
-namespace TheLakoli\TablerPreset;
+namespace Lakoli\TablerPreset;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
