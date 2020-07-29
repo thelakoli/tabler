@@ -1,6 +1,7 @@
 {
     "name": "lakoli/tabler",
     "description": "Laravel 7.x Front-end preset for Tabler UI",
+    "type": "package",
     "keywords": ["laravel", "preset", "tabler"],
     "license": "MIT",
     "require": {
