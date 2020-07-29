@@ -1,5 +1,5 @@
 {
-    "name": "laravel-frontend-presets/tabler",
+    "name": "thelakoli/tabler",
     "description": "Laravel 7.x Front-end preset for Tabler UI",
     "keywords": ["laravel", "preset", "tabler"],
     "license": "MIT",
